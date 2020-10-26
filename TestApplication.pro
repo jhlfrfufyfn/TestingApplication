@@ -16,15 +16,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    abstractwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    quizmodel.cpp \
+    quizwindow.cpp \
     user.cpp
 
 HEADERS += \
+    abstractwindow.h \
     mainwindow.h \
+    quizmodel.h \
+    quizwindow.h \
+    ui_quizwindow.h \
     user.h
 
 FORMS += \
+    QuizWindow.ui \
     mainwindow.ui
 
 TRANSLATIONS += \

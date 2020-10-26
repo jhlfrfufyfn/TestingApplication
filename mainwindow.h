@@ -4,6 +4,7 @@
 #include "user.h"
 
 #include <QMainWindow>
+#include <QStackedWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -14,17 +15,18 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
     void setUser(User user);
     void getUser()const;
 
-
-
 private:
-    Ui::MainWindow *ui;
-    QLayout *currentLayout;
+    enum LayoutType{INPUT, CHOOSEQUIZ, RULES, QUIZ, ADMIN, SETTINGS};
     User currentUser;
+
+    LayoutType currentLayoutType;
+    QStackedWidget *stackedWidget;
 };
 #endif // MAINWINDOW_H

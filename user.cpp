@@ -1,6 +1,11 @@
 #include "user.h"
 
-User::User(QString aName)
+User::User()
+{
+    this->name = "";
+}
+
+User::User(const QString& aName)
 {
     this->name = aName;
 }
