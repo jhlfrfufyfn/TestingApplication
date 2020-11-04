@@ -25,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     abstractwindow.h \
+    constants.h \
     mainwindow.h \
     quizmodel.h \
     quizwindow.h \

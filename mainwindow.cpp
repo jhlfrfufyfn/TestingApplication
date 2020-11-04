@@ -5,12 +5,13 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , currentUser(User())
-    , currentLayoutType(INPUT)
+    , currentLayoutType(QUIZ)
     , stackedWidget(new QStackedWidget(this))
 {
-    stackedWidget->addWidget(new QuizWindow());
+    stackedWidget->addWidget(new QuizWindow(this));
     stackedWidget->setCurrentIndex(0);
-    setCentralWidget(stackedWidget->currentWidget());
+    setCentralWidget(stackedWidget);
+    setGeometry(100,100,1000,500);
 }
 
 MainWindow::~MainWindow()

@@ -5,23 +5,31 @@
 
 #include <vector>
 #include <utility>
-#include <unordered_set>
+#include <set>
 
 class QuizModel
 {
 public:
     QuizModel();
 
-    std::vector<std::pair<QString,QString> > getQuizQuestions(const std::vector<QString>& values)const;
+    void nextModel();
 
-    std::vector<QString> values1 = {"Статус(положение)","Исследование(Поиск)","Безопасность(защита)","Удовольствие(довольство)",
-                                    "Принадлежность(причастность)","Заметность(внимание)","Самоактуализация(совершенствование)"};
-    std::vector<QString> values2 = {"Признание(честь)","Познание(изучение)","Порядок(организованность)",
-                                    "Комфорт(удобство)","Принятие(приязнь)","Обшение(контакты)","Самоатуализация"};
-    std::vector<QString> values3 = {"Доверие(уверенность)","Понимание(осознание)","Уважение(значимость)","Свобода(независимость)",
-                                    "Идентичность(соответствие себе)","Привязанность(близость)","Самоактуализация"};
-    std::vector<QString> values4 = {"Смысл(схватывание сути)","Власть(возможности)","Любовь","Помощь(поддержка)",
-                                    "Истина(правда)","Счастье(благо)","Самоактуализация"};
+    bool hasModelEnded()const;
+
+    int getCurrentModel()const;
+
+    std::vector<std::pair<QString,QString> > getCurrentQuestions()const;
+
+public slots:
+    void setNotUsedQuizQuestions(int size, const std::vector<QString>& values);
+private:
+    int currentModel = 0;
+    const int MODEL_SIZE_LIMIT = 4;
+
+    std::set<std::pair<int,int> > used;
+
+    std::vector<std::pair<QString,QString> > currentQuestions;
+
 };
 
 #endif // QUIZMODEL_H
