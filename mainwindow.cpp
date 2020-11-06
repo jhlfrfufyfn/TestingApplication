@@ -8,10 +8,13 @@ MainWindow::MainWindow(QWidget *parent)
     , currentLayoutType(QUIZ)
     , stackedWidget(new QStackedWidget(this))
 {
-    stackedWidget->addWidget(new QuizWindow(this));
-    stackedWidget->setCurrentIndex(0);
-    setCentralWidget(stackedWidget);
     setGeometry(100,100,1000,500);
+
+    setCentralWidget(stackedWidget);
+    stackedWidget->addWidget(new QuizWindow(this));
+
+    stackedWidget->setCurrentIndex(0);
+
 }
 
 MainWindow::~MainWindow()
