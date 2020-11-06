@@ -38,6 +38,7 @@ void QuizModel::setNotUsedQuizQuestions(int size, const std::vector<QString> &va
     std::vector<std::pair<QString,QString> > result;
     for(const auto& it:randomIndexes){
         result.push_back(notUsedPairs[it]);
+        used.insert({notUsedPairsIndex[it].first, notUsedPairsIndex[it].second});
     }
 
     currentQuestions = result;
