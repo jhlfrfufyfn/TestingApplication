@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     abstractwindow.cpp \
+    authorizationwindow.cpp \
     main.cpp \
     mainwindow.cpp \
     quizmodel.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 
 HEADERS += \
     abstractwindow.h \
+    authorizationwindow.h \
     constants.h \
     mainwindow.h \
     quizmodel.h \
@@ -34,6 +36,7 @@ HEADERS += \
 
 FORMS += \
     QuizWindow.ui \
+    authorizationwindow.ui \
     mainwindow.ui
 
 TRANSLATIONS += \
