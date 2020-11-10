@@ -15,6 +15,13 @@ public:
     explicit AuthorizationWindow(QWidget *parent = nullptr);
     ~AuthorizationWindow();
 
+private slots:
+    void checkToNextMode();
+
+signals:
+    void goToNextMode();
+    void sendUserName(QString name);
+
 private:
     Ui::AuthorizationWindow *ui;
 };

@@ -1,3 +1,5 @@
+#include <unordered_map>
+
 #include <QObject>
 #include <QPushButton>
 
@@ -6,8 +8,8 @@
 
 QuizWindow::QuizWindow(QWidget *parent):
     QWidget(parent)
-    , ui(new Ui::QuizWindow)
-    , model(QuizModel())
+  , ui(new Ui::QuizWindow)
+  , model(QuizModel())
 {
     ui->setupUi(this);
 
@@ -16,22 +18,77 @@ QuizWindow::QuizWindow(QWidget *parent):
     QObject::connect(ui->pushButton,&QPushButton::clicked, this, &QuizWindow::changeWindow);
 }
 
+std::vector<QString> QuizWindow::getWindowResult() const
+{
+    std::vector<QString> result;
+    std::vector<std::pair<QString, QString> > curQuestions = this->model.getCurrentQuestions();
+    if(ui->LeftPoint1->isChecked()){
+        result.push_back(curQuestions[0].first);
+    }
+    else{
+        result.push_back(curQuestions[0].second);
+    }
+    if(ui->LeftPoint2->isChecked()){
+        result.push_back(curQuestions[1].first);
+    }
+    else{
+        result.push_back(curQuestions[1].second);
+    }
+    if(ui->LeftPoint3->isChecked()){
+        result.push_back(curQuestions[2].first);
+    }
+    else{
+        result.push_back(curQuestions[2].second);
+    }
+    if(ui->LeftPoint4->isChecked()){
+        result.push_back(curQuestions[3].first);
+    }
+    else{
+        result.push_back(curQuestions[3].second);
+    }
+    if(ui->LeftPoint5->isChecked()){
+        result.push_back(curQuestions[4].first);
+    }
+    else{
+        result.push_back(curQuestions[4].second);
+    }
+    if(ui->LeftPoint6->isChecked()){
+        result.push_back(curQuestions[5].first);
+    }
+    else{
+        result.push_back(curQuestions[5].second);
+    }
+    if(ui->LeftPoint7->isChecked()){
+        result.push_back(curQuestions[6].first);
+    }
+    else{
+        result.push_back(curQuestions[6].second);
+    }
+    return result;
+}
+
 void QuizWindow::changeWindow()
 {
     if(!allRadioGroupsChecked()){
         return ;
     }
 
-    if(model.hasModelEnded()){
+    bool modelEnded = model.hasModelEnded();
+    bool allEnded = modelEnded && (model.getCurrentModel() == model.MODEL_SIZE_LIMIT - 1);
+
+    emit sendWindowResults(model.getCurrentModel(), getWindowResult());
+    uncheckAllRadioGroups();
+
+    if(modelEnded){
         model.nextModel();
     }
 
-    ///TODO: get statistics to user's quiz results
-
-    model.setNotUsedQuizQuestions(Constants::QUIZ_VALUES_SIZE, Constants::QUIZ_VALUES_NAMES[model.getCurrentModel()]);
-    uncheckAllRadioGroups();
-
+    model.setNotUsedQuizQuestions(QUIZ_VALUES_SIZE, QUIZ_VALUES_NAMES[model.getCurrentModel()]);
     updateRadioButtonNames();
+
+    if(allEnded) {
+        emit goToNextMode();
+    }
 }
 
 void QuizWindow::updateRadioButtonNames()

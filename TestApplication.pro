@@ -21,6 +21,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     quizmodel.cpp \
+    quizresult.cpp \
     quizwindow.cpp \
     user.cpp
 
@@ -30,6 +31,7 @@ HEADERS += \
     constants.h \
     mainwindow.h \
     quizmodel.h \
+    quizresult.h \
     quizwindow.h \
     ui_quizwindow.h \
     user.h

@@ -3,14 +3,23 @@
 
 #include <QString>
 
+#include "quizresult.h"
 
+#include <unordered_map>
 
-class User
+class User:public QObject
 {
+    Q_OBJECT
 public:
-    User();
-    User(const QString& name);
+    User(const QString& name, QObject *parent = nullptr);
 
+    void setName(const QString &name);
+
+public slots:
+    void saveToFile();
+
+public:
+    QuizResult *results;
 private:
     QString name;
 };

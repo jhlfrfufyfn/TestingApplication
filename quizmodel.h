@@ -24,11 +24,13 @@ public slots:
     void setNotUsedQuizQuestions(int size, const std::vector<QString>& values);
 private:
     int currentModel = 0;
-    const int MODEL_SIZE_LIMIT = 4;
 
     std::set<std::pair<int,int> > used;
 
     std::vector<std::pair<QString,QString> > currentQuestions;
+
+public:
+    const int MODEL_SIZE_LIMIT = 4;
 
 };
 

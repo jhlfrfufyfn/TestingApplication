@@ -3,6 +3,8 @@
 
 #include "quizmodel.h"
 
+#include <vector>
+
 #include <QObject>
 #include <QWidget>
 #include <ui_quizwindow.h>
@@ -12,9 +14,11 @@ class QuizWindow :public QWidget
     Q_OBJECT
 public:
     QuizWindow(QWidget *parent = nullptr);
+    std::vector<QString> getWindowResult()const;
 
 signals:
-    void quizResultReady(std::vector<std::pair<QString, int> > );
+    void goToNextMode();
+    void sendWindowResults(int, std::vector<QString>);
 
 public slots:
     void changeWindow();
