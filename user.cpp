@@ -45,4 +45,6 @@ void User::saveToFile()
         }
         textStream << "\n";
     }
+    results->results.clear();
+    results->results.resize(QUIZ_VALUES_NAMES.size());
 }

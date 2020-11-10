@@ -22,5 +22,6 @@ void AuthorizationWindow::checkToNextMode()
     if(!name.isEmpty()) {
         emit sendUserName(name);
         emit goToNextMode();
+        ui->lineEdit->setText("");
     }
 }

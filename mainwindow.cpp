@@ -22,9 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     ///connections between MainWindow's subwidgets
+    connect(quizWindow, &QuizWindow::goToNextMode, currentUser, &User::saveToFile);
     connect(authWindow, &AuthorizationWindow::goToNextMode, this, &MainWindow::changeWindowType);
     connect(authWindow, &AuthorizationWindow::sendUserName, this, &MainWindow::changeUserName);
-    connect(quizWindow, &QuizWindow::goToNextMode, currentUser, &User::saveToFile);
     connect(quizWindow, &QuizWindow::goToNextMode, this, &MainWindow::changeWindowType);
     connect(quizWindow, &QuizWindow::sendWindowResults, this->currentUser->results, &QuizResult::integrateResults);
 }
