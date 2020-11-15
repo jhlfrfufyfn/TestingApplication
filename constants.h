@@ -19,3 +19,5 @@ const int QUIZ_VALUES_SIZE = QUIZ_VALUES_NAMES_1.size();
 const QString FOLDER_NAME = "data/";
 
 const QString SEPARATOR_SYMBOL = ";";
+
+const int STATE_SIZE = 2;

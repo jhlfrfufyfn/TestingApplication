@@ -18,28 +18,37 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     abstractwindow.cpp \
     authorizationwindow.cpp \
+    choosequizwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    menuwindow.cpp \
     quizmodel.cpp \
     quizresult.cpp \
     quizwindow.cpp \
-    user.cpp
+    user.cpp \
+    userinfowindow.cpp
 
 HEADERS += \
     abstractwindow.h \
     authorizationwindow.h \
+    choosequizwindow.h \
     constants.h \
     mainwindow.h \
+    menuwindow.h \
     quizmodel.h \
     quizresult.h \
     quizwindow.h \
-    ui_quizwindow.h \
-    user.h
+    ui_userinfowindow.h \
+    user.h \
+    userinfowindow.h
 
 FORMS += \
     QuizWindow.ui \
     authorizationwindow.ui \
-    mainwindow.ui
+    choosequizwindow.ui \
+    mainwindow.ui \
+    menuwindow.ui \
+    userinfowindow.ui
 
 TRANSLATIONS += \
     TestApplication_ru_BY.ts
@@ -50,4 +59,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    .gitignore
+    .gitignore \
+    menuButton.qml

@@ -7,7 +7,10 @@
 
 #include <QObject>
 #include <QWidget>
-#include <ui_quizwindow.h>
+
+namespace Ui {
+class QuizWindow;
+}
 
 class QuizWindow :public QWidget
 {
@@ -26,12 +29,6 @@ public slots:
 private:
     Ui::QuizWindow *ui;
     QuizModel model;
-
-    void updateRadioButtonNames();
-    bool allRadioGroupsChecked()const;
-    void uncheckAllRadioGroups();
-    void sendQuizResultReady();
-
 };
 
 #endif // QUIZWINDOW_H

@@ -14,9 +14,7 @@ public:
     std::vector<std::unordered_map<QString, int> > results;
 
 public slots:
-    void integrateResults(int index,const std::vector<QString>& chosen);
-
-
+    void integrateResults(int index,const QString& chosen);
 };
 
 #endif // QUIZRESULT_H

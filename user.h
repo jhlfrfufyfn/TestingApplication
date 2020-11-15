@@ -5,15 +5,19 @@
 
 #include "quizresult.h"
 
+#include <QDate>
 #include <unordered_map>
 
 class User:public QObject
 {
     Q_OBJECT
 public:
-    User(const QString& name, QObject *parent = nullptr);
+    User(const QString& surName, const QString& name, const QString& secondName,const QDate& date, QObject *parent = nullptr);
 
-    void setName(const QString &name);
+    void setInfo(const QString& surName, const QString& name, const QString& secondName, const QDate& date);
+    QString getSurname()const;
+    QString getName()const;
+    QString getSecondName()const;
 
 public slots:
     void saveToFile();
@@ -21,7 +25,10 @@ public slots:
 public:
     QuizResult *results;
 private:
+    QString surName;
     QString name;
+    QString secondName;
+    QDate birthDate;
 };
 
 #endif // USER_H

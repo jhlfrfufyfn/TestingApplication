@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "authorizationwindow.h"
+#include "quizwindow.h"
 #include "user.h"
 
 #include <QMainWindow>
@@ -15,26 +17,30 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    enum State{MENU, QUIZ_MOTIVATION_RELIEF, END};
+
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
     void setUser(User user);
-    void getUser()const;
+    User* getUser()const;
+
+    void createUserInfoWindow();
+
+    State getNextState()const;
+    void setNextState(State);
 
 public slots:
     void changeWindowType();
-    void changeUserName(const QString& name);
+    void changeUserInfo(const QString& surName, const QString& name, const QString& secondName, const QDate& date);
 
 private:
-    void updateWindowMode();
+    void updateWindowLayout();
+    void createQuizWindowConnections(QuizWindow*);
 
 private:
-    const int LAYOUT_TYPE_SIZE = 2;
-    ///enum LayoutType{INPUT, CHOOSEQUIZ, RULES, QUIZ_MOTIVATION_RELIEF, ADMIN, SETTINGS};
-    enum LayoutType{INPUT, QUIZ_MOTIVATION_RELIEF, END};
-
-    LayoutType currentLayoutType;
+    State currentState;
 
     User* currentUser;
     QStackedWidget *stackedWidget;

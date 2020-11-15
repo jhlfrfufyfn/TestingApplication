@@ -886,12 +886,12 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup_5"/>
+  <buttongroup name="buttonGroup_4"/>
   <buttongroup name="buttonGroup_6"/>
   <buttongroup name="buttonGroup_7"/>
-  <buttongroup name="buttonGroup_4"/>
-  <buttongroup name="buttonGroup_1"/>
   <buttongroup name="buttonGroup_3"/>
+  <buttongroup name="buttonGroup_5"/>
+  <buttongroup name="buttonGroup_1"/>
   <buttongroup name="buttonGroup_2"/>
  </buttongroups>
 </ui>
