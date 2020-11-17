@@ -17,35 +17,35 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     abstractwindow.cpp \
-    authorizationwindow.cpp \
     choosequizwindow.cpp \
+    endquizwindow.cpp \
     main.cpp \
     mainwindow.cpp \
     menuwindow.cpp \
-    quizmodel.cpp \
-    quizresult.cpp \
-    quizwindow.cpp \
+    motivationreliefquizmodel.cpp \
+    motivationreliefquizresult.cpp \
+    motivationreliefquizwindow.cpp \
     user.cpp \
     userinfowindow.cpp
 
 HEADERS += \
     abstractwindow.h \
-    authorizationwindow.h \
     choosequizwindow.h \
     constants.h \
+    endquizwindow.h \
     mainwindow.h \
     menuwindow.h \
-    quizmodel.h \
-    quizresult.h \
-    quizwindow.h \
+    motivationreliefquizmodel.h \
+    motivationreliefquizresult.h \
+    motivationreliefquizwindow.h \
     ui_userinfowindow.h \
     user.h \
     userinfowindow.h
 
 FORMS += \
-    QuizWindow.ui \
-    authorizationwindow.ui \
+    MotivationReliefQuizWindow.ui \
     choosequizwindow.ui \
+    endquizwindow.ui \
     mainwindow.ui \
     menuwindow.ui \
     userinfowindow.ui

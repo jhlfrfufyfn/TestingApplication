@@ -1,24 +1,30 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "authorizationwindow.h"
-#include "quizwindow.h"
-#include "user.h"
-
+#include <QObject>
 #include <QMainWindow>
 #include <QStackedWidget>
+#include <QDebug>
+
+#include "ui_mainwindow.h"
+#include "userinfowindow.h"
+#include "constants.h"
+#include "menuwindow.h"
+#include "choosequizwindow.h"
+
+#include "motivationreliefquizwindow.h"
+#include "user.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    enum State{MENU, QUIZ_MOTIVATION_RELIEF, END};
-
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -26,18 +32,20 @@ public:
     void setUser(User user);
     User* getUser()const;
 
-    void createUserInfoWindow();
 
     State getNextState()const;
-    void setNextState(State);
 
 public slots:
-    void changeWindowType();
     void changeUserInfo(const QString& surName, const QString& name, const QString& secondName, const QDate& date);
+    void openUserInfoWindow();
+    void openChooseTestWindow();
+    void openMenuWindow();
+    void setNextState(State);
+    void openEndWindow();
 
 private:
     void updateWindowLayout();
-    void createQuizWindowConnections(QuizWindow*);
+    void createQuizWindowConnections(MotivationReliefQuizWindow*);
 
 private:
     State currentState;

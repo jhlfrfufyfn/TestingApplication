@@ -3,7 +3,7 @@
 
 #include <QString>
 
-#include "quizresult.h"
+#include "motivationreliefquizresult.h"
 
 #include <QDate>
 #include <unordered_map>
@@ -23,7 +23,7 @@ public slots:
     void saveToFile();
 
 public:
-    QuizResult *results;
+    MotivationReliefQuizResult *results;
 private:
     QString surName;
     QString name;

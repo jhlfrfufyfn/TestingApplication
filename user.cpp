@@ -10,6 +10,7 @@
 
 User::User(const QString &psurName, const QString &pname, const QString &psecondName, const QDate &pdate, QObject *parent):
     QObject(parent)
+  , results(new MotivationReliefQuizResult)
   , surName(psurName)
   , name(pname)
   , secondName(psecondName)
