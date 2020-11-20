@@ -2,6 +2,7 @@
 #define QUIZWINDOW_H
 
 #include <QObject>
+#include <QStackedWidget>
 #include <QWidget>
 
 #include <vector>
@@ -26,10 +27,12 @@ signals:
 public slots:
     void changeWindow();
     void keyPressEvent(QKeyEvent *event) override;
+    void loadTestLayout();
 
 private:
     Ui::MotivationReliefQuizWindow *ui;
     MotivationReliefQuizModel model;
+    QStackedWidget* stackedWidget;
 
 private:
     void changeLabels();

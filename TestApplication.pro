@@ -43,6 +43,7 @@ HEADERS += \
     userinfowindow.h
 
 FORMS += \
+    Instruction.ui \
     MotivationReliefQuizWindow.ui \
     choosequizwindow.ui \
     endquizwindow.ui \
