@@ -12,10 +12,12 @@ class MotivationReliefQuizResult: public QObject
 public:
     MotivationReliefQuizResult(QObject *parent = nullptr);
 
-    std::vector<std::unordered_map<QString, int> > results;
+    std::vector<std::unordered_map<QString, int> > resultsValue;
+    std::vector<std::unordered_map<QString, int> > resultsAccess;
 
 public slots:
-    void integrateResults(int index,const std::vector<QString>& chosen);
+    void integrateResultsValue(int index,const std::vector<QString>& chosen);
+    void integrateResultsAccess(int index,const std::vector<QString>& chosen);
 };
 
 #endif // QUIZRESULT_H

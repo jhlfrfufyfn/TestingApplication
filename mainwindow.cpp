@@ -34,7 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(mrQuizWindow, &MotivationReliefQuizWindow::goToNextState, this->currentUser, &User::saveToFile);
     connect(mrQuizWindow, &MotivationReliefQuizWindow::goToNextState, this, &MainWindow::openEndWindow);
-    connect(mrQuizWindow, &MotivationReliefQuizWindow::sendWindowResults, this->getUser()->results, &MotivationReliefQuizResult::integrateResults);
+    connect(mrQuizWindow, &MotivationReliefQuizWindow::sendWindowResultsValue, this->getUser()->results, &MotivationReliefQuizResult::integrateResultsValue);
+    connect(mrQuizWindow, &MotivationReliefQuizWindow::sendWindowResultsAccess, this->getUser()->results, &MotivationReliefQuizResult::integrateResultsAccess);
 
     connect(endQuizWindow, &EndQuizWindow::returnToMenuButtonPressed, this, &MainWindow::openMenuWindow);
 
