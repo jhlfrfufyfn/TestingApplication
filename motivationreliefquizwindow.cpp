@@ -3,6 +3,7 @@
 #include <QKeyEvent>
 #include <QObject>
 #include <QPushButton>
+#include <QMessageBox>
 #include <QDebug>
 
 #include "ui_MotivationReliefQuizWindow.h"
@@ -16,7 +17,11 @@ MotivationReliefQuizWindow::MotivationReliefQuizWindow(QWidget *parent):
   , model(MotivationReliefQuizModel())
   , stackedWidget(new QStackedWidget(this))
   , isValue(true)
+  , timer(new QTimer(this))
+  , timeOfLastKeyPressMsec(0)
 {
+    timer->setTimerType(Qt::VeryCoarseTimer);
+
     setLayout(stackedWidget->layout());
     InstructionWindow* instWindow = new InstructionWindow(stackedWidget);
     instWindow->resize(this->size());
@@ -36,6 +41,8 @@ MotivationReliefQuizWindow::MotivationReliefQuizWindow(QWidget *parent):
 
     connect(this, &MotivationReliefQuizWindow::changeToAccess, this, &MotivationReliefQuizWindow::prepareToAccess);
     connect(this, &MotivationReliefQuizWindow::changeToValue, this, &MotivationReliefQuizWindow::prepareToValue);
+
+    connect(this,&MotivationReliefQuizWindow::goToNextState, this->timer, &QTimer::stop);
 }
 
 void MotivationReliefQuizWindow::showInstruction()
@@ -68,8 +75,22 @@ void MotivationReliefQuizWindow::changeWindow()
     }
 }
 
+
 void MotivationReliefQuizWindow::keyPressEvent(QKeyEvent *event)
 {
+    if(event->key() == Qt::Key::Key_Left || event->key() == Qt::Key::Key_Right){
+        auto timeFromTimerStart = [this](){
+            return timer->interval() - timer->remainingTime();
+        };
+        int currentTime = timeFromTimerStart();
+        if(currentTime - timeOfLastKeyPressMsec < TIME_LIMIT_BETWEEN_PRESSES){
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("ПРЕДУПРЕЖДЕНИЕ");
+            msgBox.setText("Пожалуйста, проходите тест более продуманно!");
+            msgBox.exec();
+        }
+        timeOfLastKeyPressMsec = currentTime;
+    }
     if(event->key() == Qt::Key::Key_Left){
         if(isValue){
             emit sendWindowResultsValue(model.getCurrentModel(), {ui->leftChoiceLabel->text()});
@@ -105,6 +126,7 @@ void MotivationReliefQuizWindow::prepareToAccess()
 
 void MotivationReliefQuizWindow::prepareToValue()
 {
+    timer->start(TIMER_INTERVAL);
     isValue = true;
     ui->label->setText(MOTIVATIONAL_RELIEF_LABEL_VALUE);
     showInstruction();

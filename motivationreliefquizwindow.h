@@ -1,14 +1,16 @@
 #ifndef QUIZWINDOW_H
 #define QUIZWINDOW_H
 
+#include <vector>
+
 #include <QObject>
 #include <QStackedWidget>
 #include <QWidget>
-
-#include <vector>
+#include <QTimer>
 
 #include "motivationreliefquizmodel.h"
 #include "instructionwindow.h"
+#include "constants.h"
 
 namespace Ui {
 class MotivationReliefQuizWindow;
@@ -38,13 +40,16 @@ public slots:
     void prepareToValue();
 
 private:
+    void changeLabels();
+
+private:
     Ui::MotivationReliefQuizWindow *ui;
     MotivationReliefQuizModel model;
     QStackedWidget* stackedWidget;
-
-private:
-    void changeLabels();
     bool isValue;
+    QTimer* timer;
+    int timeOfLastKeyPressMsec;
+
 };
 
 #endif // QUIZWINDOW_H

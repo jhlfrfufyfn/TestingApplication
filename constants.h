@@ -27,3 +27,7 @@ const QString FOLDER_NAME = "data/";
 const QString SEPARATOR_SYMBOL = ";";
 
 enum State{MENU, CHOOSE_QUIZ, QUIZ_MOTIVATION_RELIEF, /*LUSHER_QUIZ,*/ END};
+
+const int TIMER_INTERVAL = INT_MAX;
+
+const int TIME_LIMIT_BETWEEN_PRESSES = 500;
