@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
