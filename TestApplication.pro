@@ -17,29 +17,39 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     abstractwindow.cpp \
-    authorizationwindow.cpp \
+    choosequizwindow.cpp \
+    endquizwindow.cpp \
     main.cpp \
     mainwindow.cpp \
-    quizmodel.cpp \
-    quizresult.cpp \
-    quizwindow.cpp \
-    user.cpp
+    menuwindow.cpp \
+    motivationreliefquizmodel.cpp \
+    motivationreliefquizresult.cpp \
+    motivationreliefquizwindow.cpp \
+    user.cpp \
+    userinfowindow.cpp
 
 HEADERS += \
     abstractwindow.h \
-    authorizationwindow.h \
+    choosequizwindow.h \
     constants.h \
+    endquizwindow.h \
     mainwindow.h \
-    quizmodel.h \
-    quizresult.h \
-    quizwindow.h \
-    ui_quizwindow.h \
-    user.h
+    menuwindow.h \
+    motivationreliefquizmodel.h \
+    motivationreliefquizresult.h \
+    motivationreliefquizwindow.h \
+    ui_userinfowindow.h \
+    user.h \
+    userinfowindow.h
 
 FORMS += \
-    QuizWindow.ui \
-    authorizationwindow.ui \
-    mainwindow.ui
+    Instruction.ui \
+    MotivationReliefQuizWindow.ui \
+    choosequizwindow.ui \
+    endquizwindow.ui \
+    mainwindow.ui \
+    menuwindow.ui \
+    userinfowindow.ui
 
 TRANSLATIONS += \
     TestApplication_ru_BY.ts
@@ -50,4 +60,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    .gitignore
+    .gitignore \
+    menuButton.qml

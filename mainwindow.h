@@ -1,14 +1,24 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "user.h"
-
+#include <QObject>
 #include <QMainWindow>
 #include <QStackedWidget>
+#include <QDebug>
+
+#include "ui_mainwindow.h"
+#include "userinfowindow.h"
+#include "constants.h"
+#include "menuwindow.h"
+#include "choosequizwindow.h"
+
+#include "motivationreliefquizwindow.h"
+#include "user.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
 
 class MainWindow : public QMainWindow
 {
@@ -20,21 +30,25 @@ public:
     ~MainWindow();
 
     void setUser(User user);
-    void getUser()const;
+    User* getUser()const;
+
+
+    State getNextState()const;
 
 public slots:
-    void changeWindowType();
-    void changeUserName(const QString& name);
+    void changeUserInfo(const QString& surName, const QString& name, const QString& secondName, const QDate& date);
+    void openUserInfoWindow();
+    void openChooseTestWindow();
+    void openMenuWindow();
+    void setNextState(State);
+    void openEndWindow();
 
 private:
-    void updateWindowMode();
+    void updateWindowLayout();
+    void createQuizWindowConnections(MotivationReliefQuizWindow*);
 
 private:
-    const int LAYOUT_TYPE_SIZE = 2;
-    ///enum LayoutType{INPUT, CHOOSEQUIZ, RULES, QUIZ_MOTIVATION_RELIEF, ADMIN, SETTINGS};
-    enum LayoutType{INPUT, QUIZ_MOTIVATION_RELIEF, END};
-
-    LayoutType currentLayoutType;
+    State currentState;
 
     User* currentUser;
     QStackedWidget *stackedWidget;

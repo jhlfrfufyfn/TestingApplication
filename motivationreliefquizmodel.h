@@ -7,10 +7,10 @@
 #include <utility>
 #include <set>
 
-class QuizModel
+class MotivationReliefQuizModel
 {
 public:
-    QuizModel();
+    MotivationReliefQuizModel();
 
     void nextModel();
 

@@ -1,52 +1,93 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "quizwindow.h"
-#include "authorizationwindow.h"
+#include "motivationreliefquizwindow.h"
+#include "endquizwindow.h"
+#include <typeinfo>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , currentLayoutType(INPUT)
-    , currentUser(new User("",this))
+    , currentState(MENU)
+    , currentUser(new User("","","",QDate(2000,01,01),this))
     , stackedWidget(new QStackedWidget(this))
 {
-    setGeometry(100,100,1000,500);
+    this->setWindowTitle("Тестирование");
+    this->setWindowState(Qt::WindowMaximized);
 
     setCentralWidget(stackedWidget);
-    AuthorizationWindow *authWindow = new AuthorizationWindow(this);
-    QuizWindow *quizWindow = new QuizWindow(this);
+    MenuWindow *menuWindow = new MenuWindow(this);
+    ChooseQuizWindow* chQuizWindow = new ChooseQuizWindow(this);
+    MotivationReliefQuizWindow* mrQuizWindow = new MotivationReliefQuizWindow(this);
+    EndQuizWindow* endQuizWindow = new EndQuizWindow(this);
 
-    stackedWidget->addWidget(authWindow);
-    stackedWidget->addWidget(quizWindow);
+    stackedWidget->addWidget(menuWindow);
+    stackedWidget->addWidget(chQuizWindow);
+    stackedWidget->addWidget(mrQuizWindow);
+    stackedWidget->addWidget(endQuizWindow);
 
-    stackedWidget->setCurrentIndex(0);
+    stackedWidget->setCurrentIndex(State::MENU);
 
+    connect(menuWindow, &MenuWindow::changeUserButtonPressed, this, &MainWindow::openUserInfoWindow);
+    connect(menuWindow, &MenuWindow::quitButtonPressed, this, &QApplication::quit);
+    connect(menuWindow, &MenuWindow::testButtonPressed, this, &MainWindow::openChooseTestWindow);
 
-    ///connections between MainWindow's subwidgets
-    connect(quizWindow, &QuizWindow::goToNextMode, currentUser, &User::saveToFile);
-    connect(authWindow, &AuthorizationWindow::goToNextMode, this, &MainWindow::changeWindowType);
-    connect(authWindow, &AuthorizationWindow::sendUserName, this, &MainWindow::changeUserName);
-    connect(quizWindow, &QuizWindow::goToNextMode, this, &MainWindow::changeWindowType);
-    connect(quizWindow, &QuizWindow::sendWindowResults, this->currentUser->results, &QuizResult::integrateResults);
+    connect(chQuizWindow, &ChooseQuizWindow::backToMenuButtonPressed, this, &MainWindow::openMenuWindow);
+    connect(chQuizWindow, &ChooseQuizWindow::quizChosen, this, &MainWindow::setNextState);
+
+    connect(mrQuizWindow, &MotivationReliefQuizWindow::goToNextState, this->currentUser, &User::saveToFile);
+    connect(mrQuizWindow, &MotivationReliefQuizWindow::goToNextState, this, &MainWindow::openEndWindow);
+    connect(mrQuizWindow, &MotivationReliefQuizWindow::sendWindowResults, this->getUser()->results, &MotivationReliefQuizResult::integrateResults);
+
+    connect(endQuizWindow, &EndQuizWindow::returnToMenuButtonPressed, this, &MainWindow::openMenuWindow);
+
+    openUserInfoWindow();
 }
 
 MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::changeWindowType()
+User *MainWindow::getUser() const
 {
-    currentLayoutType = static_cast<LayoutType>((int)currentLayoutType + 1);
-    currentLayoutType = static_cast<LayoutType>((int)currentLayoutType % LAYOUT_TYPE_SIZE);
-    updateWindowMode();
+    return currentUser;
 }
 
-void MainWindow::changeUserName(const QString& name)
+void MainWindow::openUserInfoWindow()
 {
-    currentUser->setName(name);
+    UserInfoWindow* userWindow = new UserInfoWindow(this);
+    connect(userWindow, &UserInfoWindow::sendUserInfo, this, &MainWindow::changeUserInfo);
+    userWindow->open();
 }
 
-void MainWindow::updateWindowMode()
+void MainWindow::openChooseTestWindow()
 {
-    stackedWidget->setCurrentIndex((int)currentLayoutType);
+    setNextState(State::CHOOSE_QUIZ);
 }
+
+void MainWindow::openMenuWindow()
+{
+    setNextState(MENU);
+}
+
+void MainWindow::setNextState(State newState)
+{
+    currentState = newState;
+    updateWindowLayout();
+}
+
+void MainWindow::openEndWindow()
+{
+    setNextState(State::END);
+}
+
+
+void MainWindow::changeUserInfo(const QString& surName, const QString& name, const QString& secondName, const QDate& date)
+{
+    currentUser->setInfo(surName, name, secondName, date);
+}
+
+void MainWindow::updateWindowLayout()
+{
+    stackedWidget->setCurrentIndex((int)currentState);
+}
+
+
 

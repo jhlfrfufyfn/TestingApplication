@@ -7,15 +7,41 @@
 #include "user.h"
 #include "constants.h"
 
-User::User(const QString& aName, QObject *parent):QObject(parent), results(new QuizResult(this))
+
+User::User(const QString &psurName, const QString &pname, const QString &psecondName, const QDate &pdate, QObject *parent):
+    QObject(parent)
+  , results(new MotivationReliefQuizResult)
+  , surName(psurName)
+  , name(pname)
+  , secondName(psecondName)
+  , birthDate(pdate)
 {
-    this->name = aName;
+
 }
 
-void User::setName(const QString &name)
+void User::setInfo(const QString &surName, const QString &name, const QString &secondName, const QDate &date)
 {
-    this->name = name;
+    this -> surName = surName;
+    this -> name = name;
+    this -> secondName = secondName;
+    this -> birthDate = date;
 }
+
+QString User::getSurname() const
+{
+    return surName;
+}
+
+QString User::getName() const
+{
+    return name;
+}
+
+QString User::getSecondName() const
+{
+    return secondName;
+}
+
 
 void User::saveToFile()
 {
@@ -27,7 +53,7 @@ void User::saveToFile()
     dir.cd(FOLDER_NAME);
 
     //int count = 1;
-    QString fileName = dir.path() + "/" + this->name + ".txt";
+    QString fileName = dir.path() + "/" + this->surName + " " + this->name + " " + this->secondName + ".txt";
     //qDebug() << fileName <<"\n";
 
     QFile newFile(fileName);

@@ -1,16 +1,16 @@
-#include "quizmodel.h"
+#include "motivationreliefquizmodel.h"
 #include <random>
 #include <chrono>
 
 #include "constants.h"
 
-QuizModel::QuizModel()
+MotivationReliefQuizModel::MotivationReliefQuizModel()
 {
-    setNotUsedQuizQuestions(QUIZ_VALUES_SIZE, QUIZ_VALUES_NAMES[currentModel]);
+    setNotUsedQuizQuestions(1, QUIZ_VALUES_NAMES[currentModel]);
 }
 
 ///returns vector of not used questions with fixed size
-void QuizModel::setNotUsedQuizQuestions(int size, const std::vector<QString> &values) {
+void MotivationReliefQuizModel::setNotUsedQuizQuestions(int size, const std::vector<QString> &values) {
 
     std::vector<std::pair<QString,QString> > notUsedPairs;
     std::vector<std::pair<int,int> > notUsedPairsIndex;
@@ -51,7 +51,7 @@ void QuizModel::setNotUsedQuizQuestions(int size, const std::vector<QString> &va
     currentQuestions = result;
 }
 
-void QuizModel::nextModel()
+void MotivationReliefQuizModel::nextModel()
 {
     used.clear();
     currentModel++;
@@ -60,7 +60,7 @@ void QuizModel::nextModel()
     }
 }
 
-bool QuizModel::hasModelEnded() const
+bool MotivationReliefQuizModel::hasModelEnded() const
 {
     if((int)used.size() == (QUIZ_VALUES_SIZE*(QUIZ_VALUES_SIZE-1))/2){
         return true;
@@ -68,12 +68,12 @@ bool QuizModel::hasModelEnded() const
     return false;
 }
 
-int QuizModel::getCurrentModel() const
+int MotivationReliefQuizModel::getCurrentModel() const
 {
     return currentModel;
 }
 
-std::vector<std::pair<QString, QString> > QuizModel::getCurrentQuestions() const
+std::vector<std::pair<QString, QString> > MotivationReliefQuizModel::getCurrentQuestions() const
 {
     return currentQuestions;
 }

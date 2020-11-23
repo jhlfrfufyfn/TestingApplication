@@ -4,19 +4,18 @@
 #include <QObject>
 
 #include <unordered_map>
+#include <vector>
 
-class QuizResult: public QObject
+class MotivationReliefQuizResult: public QObject
 {
     Q_OBJECT
 public:
-    QuizResult(QObject *parent = nullptr);
+    MotivationReliefQuizResult(QObject *parent = nullptr);
 
     std::vector<std::unordered_map<QString, int> > results;
 
 public slots:
     void integrateResults(int index,const std::vector<QString>& chosen);
-
-
 };
 
 #endif // QUIZRESULT_H
