@@ -55,6 +55,10 @@ void User::saveToFile()
     //int count = 1;
     QString fileName = dir.path() + "/" + this->surName + " " + this->name + " " + this->secondName + ".txt";
     //qDebug() << fileName <<"\n";
+    int count = 1;
+    while(QFile::exists(fileName + QString::number(count))){
+        fileName = fileName + QString::number(count++);
+    }
 
     QFile newFile(fileName);
     if(!newFile.open(QIODevice::WriteOnly | QIODevice::Text)){
@@ -64,13 +68,25 @@ void User::saveToFile()
 
     QTextStream textStream(&newFile);
 
-    for(size_t quizIndex = 0; quizIndex<this->results->results.size(); quizIndex++){
+    for(size_t quizIndex = 0; quizIndex<this->results->resultsValue.size(); quizIndex++){
         for(size_t i = 0;i < QUIZ_VALUES_NAMES[quizIndex].size(); i++) {
-            textStream << this->results->results[quizIndex][QUIZ_VALUES_NAMES[quizIndex][i]] << SEPARATOR_SYMBOL;
-      //      qDebug() << this->results->results[quizIndex][QUIZ_VALUES_NAMES[quizIndex][i]] << SEPARATOR_SYMBOL;
+            textStream << this->results->resultsValue[quizIndex][QUIZ_VALUES_NAMES[quizIndex][i]] << SEPARATOR_SYMBOL;
+      //      qDebug() << this->results->resultsValue[quizIndex][QUIZ_VALUES_NAMES[quizIndex][i]] << SEPARATOR_SYMBOL;
         }
         textStream << "\n";
     }
-    results->results.clear();
-    results->results.resize(QUIZ_VALUES_NAMES.size());
+
+    for(size_t quizIndex = 0; quizIndex<this->results->resultsAccess.size(); quizIndex++){
+        for(size_t i = 0;i < QUIZ_VALUES_NAMES[quizIndex].size(); i++) {
+            textStream << this->results->resultsAccess[quizIndex][QUIZ_VALUES_NAMES[quizIndex][i]] << SEPARATOR_SYMBOL;
+      //      qDebug() << this->results->resultsAccess[quizIndex][QUIZ_VALUES_NAMES[quizIndex][i]] << SEPARATOR_SYMBOL;
+        }
+        textStream << "\n";
+    }
+
+    results->resultsValue.clear();
+    results->resultsValue.resize(QUIZ_VALUES_NAMES.size());
+
+    results->resultsAccess.clear();
+    results->resultsAccess.resize(QUIZ_VALUES_NAMES.size());
 }

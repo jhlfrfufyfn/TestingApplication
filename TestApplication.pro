@@ -19,6 +19,7 @@ SOURCES += \
     abstractwindow.cpp \
     choosequizwindow.cpp \
     endquizwindow.cpp \
+    instructionwindow.cpp \
     main.cpp \
     mainwindow.cpp \
     menuwindow.cpp \
@@ -33,6 +34,7 @@ HEADERS += \
     choosequizwindow.h \
     constants.h \
     endquizwindow.h \
+    instructionwindow.h \
     mainwindow.h \
     menuwindow.h \
     motivationreliefquizmodel.h \

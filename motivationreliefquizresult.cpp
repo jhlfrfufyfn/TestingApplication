@@ -3,10 +3,17 @@
 
 MotivationReliefQuizResult::MotivationReliefQuizResult(QObject *parent):QObject(parent)
 {
-    results.resize(QUIZ_VALUES_NAMES.size());
+    resultsValue.resize(QUIZ_VALUES_NAMES.size());
+    resultsAccess.resize(QUIZ_VALUES_NAMES.size());
 }
 
-void MotivationReliefQuizResult::integrateResults(int index, const std::vector<QString>& chosen)
+void MotivationReliefQuizResult::integrateResultsValue(int index, const std::vector<QString>& chosen)
 {
-    results[index][chosen[0]]++;
+    resultsValue[index][chosen[0]]++;
 }
+
+void MotivationReliefQuizResult::integrateResultsAccess(int index, const std::vector<QString>& chosen)
+{
+    resultsAccess[index][chosen[0]]++;
+}
+
