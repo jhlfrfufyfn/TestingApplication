@@ -43,13 +43,13 @@ void ChooseQuizWindow::processQuizChoosing()
     QTreeWidgetItem *selectedItem = ui->treeWidget->selectedItems()[0];
     int selectedIndex = ui->treeWidget->indexOfTopLevelItem(selectedItem);
     switch(selectedIndex){
-        case 0:
-            emit quizChosen(State::QUIZ_MOTIVATION_RELIEF);
-            break;
-        case 1:
-            //emit quizChosen(State::LUSHER_QUIZ);
-            break;
-        default:
-            break;
+    case 0:
+        emit quizChosen(State::QUIZ_MOTIVATION_RELIEF);
+        break;
+    case 1:
+        //emit quizChosen(State::LUSHER_QUIZ);
+        break;
+    default:
+        break;
     }
 }

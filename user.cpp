@@ -52,17 +52,17 @@ void User::saveToFile()
     }
     dir.cd(FOLDER_NAME);
 
-    //int count = 1;
     QString fileName = dir.path() + "/" + this->surName + " " + this->name + " " + this->secondName + ".txt";
-    //qDebug() << fileName <<"\n";
     int count = 1;
-    while(QFile::exists(fileName + QString::number(count))){
-        fileName = fileName + QString::number(count++);
+
+    if(QFile::exists(fileName)){
+        while(QFile::exists(fileName + QString::number(count))){
+            fileName = fileName + QString::number(count++);
+        }
     }
 
     QFile newFile(fileName);
     if(!newFile.open(QIODevice::WriteOnly | QIODevice::Text)){
-    //    qDebug() << "file not opened\n";
         return ;
     }
 
@@ -71,7 +71,6 @@ void User::saveToFile()
     for(size_t quizIndex = 0; quizIndex<this->results->resultsValue.size(); quizIndex++){
         for(size_t i = 0;i < QUIZ_VALUES_NAMES[quizIndex].size(); i++) {
             textStream << this->results->resultsValue[quizIndex][QUIZ_VALUES_NAMES[quizIndex][i]] << SEPARATOR_SYMBOL;
-      //      qDebug() << this->results->resultsValue[quizIndex][QUIZ_VALUES_NAMES[quizIndex][i]] << SEPARATOR_SYMBOL;
         }
         textStream << "\n";
     }
@@ -79,7 +78,7 @@ void User::saveToFile()
     for(size_t quizIndex = 0; quizIndex<this->results->resultsAccess.size(); quizIndex++){
         for(size_t i = 0;i < QUIZ_VALUES_NAMES[quizIndex].size(); i++) {
             textStream << this->results->resultsAccess[quizIndex][QUIZ_VALUES_NAMES[quizIndex][i]] << SEPARATOR_SYMBOL;
-      //      qDebug() << this->results->resultsAccess[quizIndex][QUIZ_VALUES_NAMES[quizIndex][i]] << SEPARATOR_SYMBOL;
+            //      qDebug() << this->results->resultsAccess[quizIndex][QUIZ_VALUES_NAMES[quizIndex][i]] << SEPARATOR_SYMBOL;
         }
         textStream << "\n";
     }
