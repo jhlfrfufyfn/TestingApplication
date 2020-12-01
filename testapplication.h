@@ -1,16 +1,16 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
+#pragma once
 #include <QObject>
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QDebug>
 
-#include "ui_mainwindow.h"
 #include "userinfowindow.h"
 #include "constants.h"
 #include "menuwindow.h"
 #include "choosequizwindow.h"
+#include "motivationreliefquizwindow.h"
+#include "statisticswindow.h"
+#include "endquizwindow.h"
 
 #include "motivationreliefquizwindow.h"
 #include "user.h"
@@ -20,38 +20,39 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 
-class MainWindow : public QMainWindow
+class TestApplication : public QMainWindow
 {
     Q_OBJECT
 
 public:
-
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    TestApplication(QWidget *parent = nullptr);
+    ~TestApplication();
 
     void setUser(User user);
     User* getUser()const;
 
-
     State getNextState()const;
 
 public slots:
-    void changeUserInfo(const QString& surName, const QString& name, const QString& secondName, const QDate& date);
+    void createNewUser(const QString& surName, const QString& name, const QString& secondName, const QDate& date);
     void openUserInfoWindow();
     void openChooseTestWindow();
     void openMenuWindow();
     void setNextState(State);
     void openEndWindow();
+    void openStatisticsWindow();
 
 private:
     void updateWindowLayout();
-    void createQuizWindowConnections(MotivationReliefQuizWindow*);
+
+    void createMotivationalReliefQuizWindowConnections(MotivationReliefQuizWindow*);
+    void createMenuWindowConnections(MenuWindow*,StatisticsWindow*);
+    void createChooseQuizWindowConnections(ChooseQuizWindow*);
+    void createStatisticsWindowConnections(StatisticsWindow*);
+    void createEndQuizWindowConnections(EndQuizWindow*);
 
 private:
     State currentState;
-
     User* currentUser;
     QStackedWidget *stackedWidget;
-
 };
-#endif // MAINWINDOW_H

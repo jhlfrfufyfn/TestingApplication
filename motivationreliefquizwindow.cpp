@@ -16,7 +16,7 @@ MotivationReliefQuizWindow::MotivationReliefQuizWindow(QWidget *parent):
   , ui(new Ui::MotivationReliefQuizWindow)
   , model(MotivationReliefQuizModel())
   , stackedWidget(new QStackedWidget(this))
-  , isValue(true)
+  , isValueMode(true)
   , timer(new QTimer(this))
   , timeOfLastKeyPressMsec(0)
 {
@@ -26,7 +26,7 @@ MotivationReliefQuizWindow::MotivationReliefQuizWindow(QWidget *parent):
     InstructionWindow* instWindow = new InstructionWindow(stackedWidget);
     instWindow->resize(this->size());
     stackedWidget->addWidget(instWindow);
-    connect(this, &MotivationReliefQuizWindow::instructionShown, instWindow, &InstructionWindow::setInstructionLabel);
+    connect(this, &MotivationReliefQuizWindow::sendInstructionShown, instWindow, &InstructionWindow::setInstructionLabel);
 
     connect(instWindow->getUi()->pushButton, &QPushButton::pressed, this, &MotivationReliefQuizWindow::loadTestLayout);
 
@@ -35,24 +35,21 @@ MotivationReliefQuizWindow::MotivationReliefQuizWindow(QWidget *parent):
     testWidget->resize(this->size());
     stackedWidget->addWidget(testWidget);
 
-    changeLabels();
+    updateUiChoiceLabels();
 
-    prepareToValue();
+    switchToValueMode();
 
-    connect(this, &MotivationReliefQuizWindow::changeToAccess, this, &MotivationReliefQuizWindow::prepareToAccess);
-    connect(this, &MotivationReliefQuizWindow::changeToValue, this, &MotivationReliefQuizWindow::prepareToValue);
-
-    connect(this,&MotivationReliefQuizWindow::goToNextState, this->timer, &QTimer::stop);
+    connect(this,&MotivationReliefQuizWindow::sendQuizEnded, this->timer, &QTimer::stop);
 }
 
 void MotivationReliefQuizWindow::showInstruction()
 {
-    const QString& labelText = (isValue)?MOTIVATIONAL_RELIEF_INSTRUCTION_VALUE:MOTIVATIONAL_RELIEF_INSTRUCTION_ACCESS;
-    emit instructionShown(labelText);
+    const QString& labelText = (isValueMode)?MOTIVATIONAL_RELIEF_INSTRUCTION_VALUE:MOTIVATIONAL_RELIEF_INSTRUCTION_ACCESS;
+    emit sendInstructionShown(labelText);
     stackedWidget->setCurrentIndex(0);
 }
 
-void MotivationReliefQuizWindow::changeWindow()
+void MotivationReliefQuizWindow::goToNextQuizQuestion()
 {
     bool modelEnded = model.hasModelEnded();
     bool allEnded = modelEnded && (model.getCurrentModel() == model.MODEL_SIZE_LIMIT - 1);
@@ -62,15 +59,15 @@ void MotivationReliefQuizWindow::changeWindow()
     }
 
     model.setNotUsedQuizQuestions(1, QUIZ_VALUES_NAMES[model.getCurrentModel()]);
-    changeLabels();
+    updateUiChoiceLabels();
 
     if(allEnded) {
-        if(isValue){
-            emit changeToAccess();
+        if(isValueMode){
+            switchToAccessMode();
         }
         else {
-            emit changeToValue();
-            emit goToNextState();
+            resetQuiz();
+            emit sendQuizEnded();
         }
     }
 }
@@ -87,27 +84,27 @@ void MotivationReliefQuizWindow::keyPressEvent(QKeyEvent *event)
             QMessageBox msgBox;
             msgBox.setWindowTitle("ПРЕДУПРЕЖДЕНИЕ");
             msgBox.setText("Пожалуйста, проходите тест более продуманно!");
-            msgBox.exec();
+            ///msgBox.exec();
         }
         timeOfLastKeyPressMsec = currentTime;
     }
     if(event->key() == Qt::Key::Key_Left){
-        if(isValue){
+        if(isValueMode){
             emit sendWindowResultsValue(model.getCurrentModel(), {ui->leftChoiceLabel->text()});
         }
         else{
             emit sendWindowResultsAccess(model.getCurrentModel(), {ui->leftChoiceLabel->text()});
         }
-        changeWindow();
+        goToNextQuizQuestion();
     }
     else if(event->key() == Qt::Key::Key_Right){
-        if(isValue){
+        if(isValueMode){
             emit sendWindowResultsValue(model.getCurrentModel(), {ui->rightChoiceLabel->text()});
         }
         else{
             emit sendWindowResultsAccess(model.getCurrentModel(), {ui->rightChoiceLabel->text()});
         }
-        changeWindow();
+        goToNextQuizQuestion();
     }
 }
 
@@ -117,23 +114,28 @@ void MotivationReliefQuizWindow::loadTestLayout()
     stackedWidget->setCurrentIndex(1);
 }
 
-void MotivationReliefQuizWindow::prepareToAccess()
+void MotivationReliefQuizWindow::switchToAccessMode()
 {
-    isValue = false;
+    isValueMode = false;
     ui->label->setText(MOTIVATIONAL_RELIEF_LABEL_ACCESS);
     showInstruction();
 }
 
-void MotivationReliefQuizWindow::prepareToValue()
+void MotivationReliefQuizWindow::switchToValueMode()
 {
     timer->start(TIMER_INTERVAL);
-    isValue = true;
+    isValueMode = true;
     ui->label->setText(MOTIVATIONAL_RELIEF_LABEL_VALUE);
     showInstruction();
 }
 
-void MotivationReliefQuizWindow::changeLabels()
+void MotivationReliefQuizWindow::updateUiChoiceLabels()
 {
     ui->leftChoiceLabel->setText(model.getCurrentQuestions()[0].first);
     ui->rightChoiceLabel->setText(model.getCurrentQuestions()[0].second);
+}
+
+void MotivationReliefQuizWindow::resetQuiz()
+{
+    switchToValueMode();
 }

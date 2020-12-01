@@ -2,11 +2,12 @@
 #define USER_H
 
 #include <QString>
-
-#include "motivationreliefquizresult.h"
-
 #include <QDate>
+
 #include <unordered_map>
+
+#include "constants.h"
+#include "motivationreliefquizresult.h"
 
 class User:public QObject
 {
@@ -14,16 +15,26 @@ class User:public QObject
 public:
     User(const QString& surName, const QString& name, const QString& secondName,const QDate& date, QObject *parent = nullptr);
 
-    void setInfo(const QString& surName, const QString& name, const QString& secondName, const QDate& date);
+    void resetInfo(const QString& surName, const QString& name, const QString& secondName, const QDate& date);
     QString getSurname()const;
     QString getName()const;
     QString getSecondName()const;
 
+    static QStringList getUserList();
+
+    void clearTestResults();
+
 public slots:
     void saveToFile();
+    void loadFromFile(const QString&, SaveFormat);
+    static void createAllUsersDataTable();
+
+private:
+    void userPersonalInfoToJson(QJsonObject& obj);
+    void readUserInfoFromJson(const QJsonObject& obj);
 
 public:
-    MotivationReliefQuizResult *results;
+    MotivationReliefQuizResult *mrResults;
 private:
     QString surName;
     QString name;

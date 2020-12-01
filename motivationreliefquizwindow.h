@@ -21,32 +21,34 @@ class MotivationReliefQuizWindow :public QWidget
     Q_OBJECT
 public:
     MotivationReliefQuizWindow(QWidget *parent = nullptr);
-    std::vector<QString> getWindowResult()const;
     void showInstruction();
 
 signals:
-    void changeToValue();
-    void changeToAccess();
-    void goToNextState();
+    void sendChangeToValueMode();
+    void sendChangeToAccessMode();
+    void sendQuizEnded();
     void sendWindowResultsValue(int, const std::vector<QString>&);
     void sendWindowResultsAccess(int, const std::vector<QString>&);
-    void instructionShown(const QString& text);
+    void sendInstructionShown(const QString& text);
+
+protected slots:
+    void keyPressEvent(QKeyEvent *event) override;
 
 public slots:
-    void changeWindow();
-    void keyPressEvent(QKeyEvent *event) override;
+    void goToNextQuizQuestion();
     void loadTestLayout();
-    void prepareToAccess();
-    void prepareToValue();
+    void switchToAccessMode();
+    void switchToValueMode();
 
 private:
-    void changeLabels();
+    void updateUiChoiceLabels();
+    void resetQuiz();
 
 private:
     Ui::MotivationReliefQuizWindow *ui;
     MotivationReliefQuizModel model;
     QStackedWidget* stackedWidget;
-    bool isValue;
+    bool isValueMode;
     QTimer* timer;
     int timeOfLastKeyPressMsec;
 

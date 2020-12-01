@@ -13,11 +13,9 @@ public:
     MotivationReliefQuizModel();
 
     void nextModel();
-
     bool hasModelEnded()const;
 
     int getCurrentModel()const;
-
     std::vector<std::pair<QString,QString> > getCurrentQuestions()const;
 
 public slots:

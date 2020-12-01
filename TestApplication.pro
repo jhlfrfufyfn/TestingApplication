@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,30 +16,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    abstractwindow.cpp \
     choosequizwindow.cpp \
     endquizwindow.cpp \
     instructionwindow.cpp \
     main.cpp \
-    mainwindow.cpp \
     menuwindow.cpp \
     motivationreliefquizmodel.cpp \
     motivationreliefquizresult.cpp \
     motivationreliefquizwindow.cpp \
+    statisticswindow.cpp \
+    testapplication.cpp \
     user.cpp \
     userinfowindow.cpp
 
 HEADERS += \
-    abstractwindow.h \
     choosequizwindow.h \
     constants.h \
     endquizwindow.h \
     instructionwindow.h \
-    mainwindow.h \
     menuwindow.h \
     motivationreliefquizmodel.h \
     motivationreliefquizresult.h \
     motivationreliefquizwindow.h \
+    statisticswindow.h \
+    testapplication.h \
     ui_userinfowindow.h \
     user.h \
     userinfowindow.h
@@ -51,6 +51,7 @@ FORMS += \
     endquizwindow.ui \
     mainwindow.ui \
     menuwindow.ui \
+    statisticswindow.ui \
     userinfowindow.ui
 
 TRANSLATIONS += \
