@@ -82,7 +82,7 @@ void MotivationReliefQuizWindow::keyPressEvent(QKeyEvent *event)
             QMessageBox msgBox;
             msgBox.setWindowTitle("ПРЕДУПРЕЖДЕНИЕ");
             msgBox.setText("Пожалуйста, проходите тест более продуманно!");
-            msgBox.exec();
+            //msgBox.exec();
         }
         timeOfLastKeyPressMsec = currentTime;
     }

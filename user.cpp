@@ -66,6 +66,11 @@ QString User::getSecondName() const
     return secondName;
 }
 
+QDate User::getBirthDate() const
+{
+    return birthDate;
+}
+
 void User::createAllUsersDataTable()
 {
     QDir directory("data");
@@ -121,11 +126,14 @@ void User::saveToFile()
     userPersonalInfoToJson(userJson);
 
     QJsonObject mqResult = mrResults->saveToJsonResult();
-    userJson["mqResult"] = mqResult;
+    if(!userJson["mqResult"].toObject().contains("value")){
+        userJson["mqResult"] = mqResult;
+    }
 
     QJsonObject itoResult = itoResults->saveToJsonResult();
-    userJson["itoResult"] = itoResult;
-
+    if(!userJson["mqResult"].toObject().contains(ITO_CATEGORIES[0])){
+        userJson["itoResult"] = itoResult;
+    }
     QDir dir;
     if(!dir.exists(FOLDER_NAME)){
         dir.mkpath(FOLDER_NAME);

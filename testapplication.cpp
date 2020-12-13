@@ -130,6 +130,20 @@ void TestApplication::openEndWindow()
 void TestApplication::createNewUser(const QString& surName, const QString& name, const QString& secondName, const QDate& date)
 {
     //currentUser = new User(surName, name, secondName, date);
+    QStringList list = User::getUserList();
+    for(const auto& selectedUser:list){
+        if(selectedUser == currentUser.getSurname()+" "+currentUser.getName()+" "+ currentUser.getSecondName() +" \""+ currentUser.getBirthDate().toString() + "\""){
+            QString dateStr = selectedUser.split(" \"").at(1);
+            dateStr.remove(dateStr.size()-1, 1);
+            QDate date = QDate::fromString(dateStr);
+            QString fileName = "data/" + selectedUser.split(" ").at(0) + selectedUser.split(" ").at(1)+ selectedUser.split(" ").at(2)
+                    + QString::number(date.day()) + QString::number(date.month()) + QString::number(date.year())+".txt";
+
+            User *user = User::loadFromFile(fileName);
+            currentUser.copy(user);
+            return ;
+        }
+    }
     currentUser.resetInfo(surName, name, secondName, date);
     currentUser.clearTestResults();
 }

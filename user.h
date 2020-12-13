@@ -23,6 +23,7 @@ public:
     QString getSurname()const;
     QString getName()const;
     QString getSecondName()const;
+    QDate getBirthDate()const;
 
     static QStringList getUserList();
 
