@@ -1,6 +1,7 @@
 #include "testapplication.h"
 #include "userinfowindow.h"
 #include "statisticswindow.h"
+#include "itoquizwindow.h"
 
 #include <QApplication>
 #include <QHBoxLayout>

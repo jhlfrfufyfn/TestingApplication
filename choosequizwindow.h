@@ -1,5 +1,4 @@
-#ifndef CHOOSEQUIZWINDOW_H
-#define CHOOSEQUIZWINDOW_H
+#pragma once
 
 #include <QWidget>
 #include "constants.h"
@@ -32,4 +31,3 @@ private:
     Ui::ChooseQuizWindow *ui;
 };
 
-#endif // CHOOSEQUIZWINDOW_H

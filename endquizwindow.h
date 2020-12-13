@@ -1,5 +1,4 @@
-#ifndef ENDQUIZWINDOW_H
-#define ENDQUIZWINDOW_H
+#pragma once
 
 #include <QWidget>
 
@@ -22,4 +21,3 @@ private:
     Ui::EndQuizWindow *ui;
 };
 
-#endif // ENDQUIZWINDOW_H

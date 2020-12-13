@@ -1,5 +1,4 @@
-#ifndef INSTRUCTIONWINDOW_H
-#define INSTRUCTIONWINDOW_H
+#pragma once
 
 #include <QWidget>
 
@@ -20,4 +19,3 @@ private:
 
 };
 
-#endif // INSTRUCTIONWINDOW_H

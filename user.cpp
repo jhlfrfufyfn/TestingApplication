@@ -12,15 +12,35 @@
 #include "constants.h"
 
 
+User::User():
+    surName("")
+  , name("")
+  , secondName("")
+  , birthDate()
+  , mrResults(new MotivationReliefQuizResult(this))
+  , itoResults(new ItoResult(this))
+{
+
+}
+
 User::User(const QString &psurName, const QString &pname, const QString &psecondName, const QDate &pdate, QObject *parent):
     QObject(parent)
   , mrResults(new MotivationReliefQuizResult(this))
+  , itoResults(new ItoResult(this))
   , surName(psurName)
   , name(pname)
   , secondName(psecondName)
   , birthDate(pdate)
 {
 
+}
+
+void User::copy(User *user)
+{
+    resetInfo(user->surName, user->name, user->secondName,user->birthDate);
+    mrResults->resultsValue = user->mrResults->resultsValue;
+    mrResults->resultsAccess = user->mrResults->resultsAccess;
+    itoResults->keyMap = user->itoResults->keyMap;
 }
 
 void User::resetInfo(const QString &surName, const QString &name, const QString &secondName, const QDate &date)
@@ -102,6 +122,8 @@ void User::saveToFile()
     QJsonObject mqResult = mrResults->saveToJsonResult();
     userJson["mqResult"] = mqResult;
 
+    QJsonObject itoResult = itoResults->saveToJsonResult();
+    userJson["itoResult"] = itoResult;
 
     QDir dir;
     if(!dir.exists(FOLDER_NAME)){
@@ -114,34 +136,35 @@ void User::saveToFile()
 
     QString extension = ".txt";
 
-    int count = 1;
-    if(QFile::exists(fileName+extension)){
-        while(QFile::exists(fileName + QString::number(count)+extension)){
-            count++;
-        }
-        fileName = fileName + QString::number(count++);
-    }
     fileName = fileName + extension;
 
     QFile newFile(fileName);
-    if(!newFile.open(QIODevice::WriteOnly | QIODevice::Text)){
+    if(!newFile.open(QIODevice::WriteOnly | QIODevice::Text|QIODevice::Truncate)){
         return ;
     }
 
     newFile.write(QJsonDocument(userJson).toJson(QJsonDocument::Indented));
 }
 
-void User::loadFromFile(const QString& fileName, SaveFormat saveFormat)
+User* User::loadFromFile(const QString& fileName)
 {
+    User *ans = new User("","","",QDate());
     QFile file(fileName);
+    file.open(QIODevice::ReadOnly);
 
     QByteArray savedData = file.readAll();
 
-    QJsonDocument loadDoc(saveFormat == JSON
-                          ? QJsonDocument::fromJson(savedData)
-                          : QJsonDocument(QCborValue::fromCbor(savedData).toMap().toJsonObject()));
+    QJsonDocument loadDoc(QJsonDocument::fromJson(savedData));
 
-    readUserInfoFromJson(loadDoc.object());
+    ans->readUserInfoFromJson(loadDoc.object());
+
+    QJsonObject mqResult = loadDoc.object()["mqResult"].toObject();
+    QJsonObject itoResult = loadDoc.object()["itoObject"].toObject();
+
+    ans->mrResults->readFromJson(mqResult);
+    ans->itoResults->readFromJson(itoResult);
+
+    return ans;
 }
 
 void User::readUserInfoFromJson(const QJsonObject& json){
@@ -158,7 +181,12 @@ void User::readUserInfoFromJson(const QJsonObject& json){
         birthDate = QDate::fromString(json["birthDate"].toString(),Qt::DateFormat::TextDate);
     }
     if(json.contains("mqResult") && json["mqResult"].isObject()){
+        mrResults->clear();
         mrResults->readFromJson(json["mqResult"].toObject());
+    }
+    if(json.contains("itoResult")){
+        itoResults->clear();
+        itoResults->readFromJson(json["itoResult"].toObject());
     }
 }
 

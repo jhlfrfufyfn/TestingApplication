@@ -1,5 +1,4 @@
-#ifndef MENUWINDOW_H
-#define MENUWINDOW_H
+#pragma once
 
 #include <QWidget>
 
@@ -24,5 +23,3 @@ signals:
 private:
     Ui::MenuWindow *ui;
 };
-
-#endif // MENUWINDOW_H

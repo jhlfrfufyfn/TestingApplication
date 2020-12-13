@@ -1,5 +1,4 @@
-#ifndef QUIZMODEL_H
-#define QUIZMODEL_H
+#pragma once
 
 #include <QObject>
 
@@ -31,5 +30,3 @@ public:
     const int MODEL_SIZE_LIMIT = 4;
 
 };
-
-#endif // QUIZMODEL_H

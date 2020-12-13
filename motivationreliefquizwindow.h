@@ -1,5 +1,4 @@
-#ifndef QUIZWINDOW_H
-#define QUIZWINDOW_H
+#pragma once
 
 #include <vector>
 
@@ -24,8 +23,6 @@ public:
     void showInstruction();
 
 signals:
-    void sendChangeToValueMode();
-    void sendChangeToAccessMode();
     void sendQuizEnded();
     void sendWindowResultsValue(int, const std::vector<QString>&);
     void sendWindowResultsAccess(int, const std::vector<QString>&);
@@ -53,5 +50,3 @@ private:
     int timeOfLastKeyPressMsec;
 
 };
-
-#endif // QUIZWINDOW_H

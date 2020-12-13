@@ -10,6 +10,7 @@
 #include "choosequizwindow.h"
 #include "motivationreliefquizwindow.h"
 #include "statisticswindow.h"
+#include "itoquizwindow.h"
 #include "endquizwindow.h"
 
 #include "motivationreliefquizwindow.h"
@@ -35,6 +36,7 @@ public:
 
 public slots:
     void createNewUser(const QString& surName, const QString& name, const QString& secondName, const QDate& date);
+    void createExistingUser(User* user);
     void openUserInfoWindow();
     void openChooseTestWindow();
     void openMenuWindow();
@@ -50,9 +52,10 @@ private:
     void createChooseQuizWindowConnections(ChooseQuizWindow*);
     void createStatisticsWindowConnections(StatisticsWindow*);
     void createEndQuizWindowConnections(EndQuizWindow*);
+    void createItoQuizWindowConnections(ItoQuizWindow*);
 
 private:
     State currentState;
-    User* currentUser;
+    User currentUser;
     QStackedWidget *stackedWidget;
 };

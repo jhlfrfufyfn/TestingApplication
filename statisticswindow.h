@@ -1,6 +1,4 @@
-#ifndef STATISTICSWINDOW_H
-#define STATISTICSWINDOW_H
-
+#pragma once
 #include <QWidget>
 #include <QObject>
 #include <QComboBox>
@@ -45,4 +43,3 @@ private:
     Ui::StatisticsWindow *ui;
 };
 
-#endif // STATISTICSWINDOW_H

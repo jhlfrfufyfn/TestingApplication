@@ -2,6 +2,7 @@
 
 #include "choosequizwindow.h"
 #include "ui_choosequizwindow.h"
+#include "user.h"
 
 ChooseQuizWindow::ChooseQuizWindow(QWidget *parent) :
     QWidget(parent),
@@ -20,7 +21,7 @@ ChooseQuizWindow::ChooseQuizWindow(QWidget *parent) :
     ui->treeWidget->addTopLevelItem(item1);
 
     QTreeWidgetItem *item2 = new QTreeWidgetItem();
-    item2->setText(0, "Тест Люшера");
+    item2->setText(0, "ИТО");
     ui->treeWidget->addTopLevelItem(item2);
 
     connect(ui->treeWidget,&QTreeWidget::itemSelectionChanged, this, &ChooseQuizWindow::processQuizSelecting);
@@ -47,9 +48,10 @@ void ChooseQuizWindow::processQuizChoosing()
         emit quizChosen(State::QUIZ_MOTIVATION_RELIEF);
         break;
     case 1:
-        //emit quizChosen(State::LUSHER_QUIZ);
+        emit quizChosen(State::ITO_QUIZ);
         break;
     default:
         break;
     }
 }
+

@@ -7,13 +7,17 @@
 #include <unordered_map>
 
 #include "constants.h"
+#include "itoresult.h"
 #include "motivationreliefquizresult.h"
 
 class User:public QObject
 {
     Q_OBJECT
 public:
+    User();
     User(const QString& surName, const QString& name, const QString& secondName,const QDate& date, QObject *parent = nullptr);
+
+    void copy(User *user);
 
     void resetInfo(const QString& surName, const QString& name, const QString& secondName, const QDate& date);
     QString getSurname()const;
@@ -26,7 +30,7 @@ public:
 
 public slots:
     void saveToFile();
-    void loadFromFile(const QString&, SaveFormat);
+    static User* loadFromFile(const QString&);
     static void createAllUsersDataTable();
 
 private:
@@ -35,6 +39,7 @@ private:
 
 public:
     MotivationReliefQuizResult *mrResults;
+    ItoResult *itoResults;
 private:
     QString surName;
     QString name;

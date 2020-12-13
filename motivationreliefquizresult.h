@@ -1,5 +1,4 @@
-#ifndef QUIZRESULT_H
-#define QUIZRESULT_H
+#pragma once
 
 #include <QObject>
 #include <QJsonObject>
@@ -25,4 +24,3 @@ public slots:
     QJsonObject saveToJsonResult();
 };
 
-#endif // QUIZRESULT_H

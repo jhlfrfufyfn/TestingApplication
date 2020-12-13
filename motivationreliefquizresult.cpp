@@ -19,26 +19,25 @@ void MotivationReliefQuizResult::clear()
 void MotivationReliefQuizResult::readFromJson(const QJsonObject &json)
 {
     if(json.contains("value")&&json["value"].isArray()){
-        auto valueMap = json["value"].toObject();
-
+        auto valueMap = json["value"].toArray();
         for(int index = 0;index < (int)QUIZ_VALUES_NAMES.size();index++) {
             const auto& vector = QUIZ_VALUES_NAMES[index];
             for(const auto& str: vector){
-                if(valueMap.contains(str)){
-                    resultsValue[index][str] = valueMap[str].toInt();
+                if(valueMap.at(index).toObject().contains(str)){
+                    resultsValue[index][str] = valueMap.at(index).toObject()[str].toInt();
                 }
             }
         }
     }
 
     if(json.contains("access")&&json["access"].isArray()){
-        auto valueMap = json["access"].toObject();
+        auto valueMap = json["access"].toArray();
 
         for(int index = 0;index < (int)QUIZ_VALUES_NAMES.size();index++) {
             const auto& vector = QUIZ_VALUES_NAMES[index];
             for(const auto& str: vector){
-                if(valueMap.contains(str)){
-                    resultsAccess[index][str] = valueMap[str].toInt();
+                if(valueMap.at(index).toObject().contains(str)){
+                    resultsAccess[index][str] = valueMap.at(index).toObject()[str].toInt();
                 }
             }
         }

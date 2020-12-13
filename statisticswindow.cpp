@@ -288,7 +288,6 @@ QChart* StatisticsWindow::createMotProPerChart()
     colCell = 9;
     for(int i=0;i<(int)QUIZ_VALUES_NAMES[0].size();i++){
         lineseries2->append(i, getCellValueDouble(rowCell, colCell));
-        qDebug()<<getCellValueDouble(rowCell, colCell);
         rowCell++;
     }
     chart->addSeries(lineseries2);
@@ -311,7 +310,7 @@ QChart* StatisticsWindow::createMotProPerChart()
     lineseries->attachAxis(axisY);
     lineseries2->attachAxis(axisY);
     axisY->setRange(0,7);
-    axisY->setTickType(QValueAxis::TicksFixed);
+    axisY->setTickType(QValueAxis::TicksDynamic);
     axisY->setTickInterval(0.5);
 
     chart->legend()->setVisible(true);
@@ -353,7 +352,7 @@ QChart *StatisticsWindow::createProInsConChart()
     chart->addAxis(axisY, Qt::AlignLeft);
     lineseries->attachAxis(axisY);
     axisY->setRange(0,7);
-    axisY->setTickType(QValueAxis::TicksFixed);
+    axisY->setTickType(QValueAxis::TicksDynamic);
     axisY->setTickInterval(0.5);
 
     chart->legend()->setVisible(true);
@@ -405,7 +404,7 @@ QChart *StatisticsWindow::createBarChart()
     chart->addAxis(axisY, Qt::AlignLeft);
     barseries->attachAxis(axisY);
     axisY->setRange(-7,7);
-    axisY->setTickType(QValueAxis::TicksFixed);
+    axisY->setTickType(QValueAxis::TicksDynamic);
     axisY->setTickInterval(1);
 
     return chart;

@@ -1,8 +1,6 @@
-#ifndef USERINFOWINDOW_H
-#define USERINFOWINDOW_H
-
+#pragma once
 #include <QDialog>
-#include "ui_userinfowindow.h"
+#include "user.h"
 
 namespace Ui {
 class UserInfoWindow;
@@ -20,13 +18,16 @@ public slots:
     void checkLineEdits();
     void accept() override;
     void reject() override;
+    void updateUserList();
+    void userSelected(int index);
+    void enableButtons();
 
 signals:
     void sendUserInfo(const QString& surname, const QString& name,const QString& secondname, const QDate& date);
+    void sendExistingUser(User*);
 
 private:
     Ui::UserInfoWindow *ui;
-    void enableButtons(bool value);
+    void setEnabledButtons(bool value);
 };
 
-#endif // USERINFOWINDOW_H

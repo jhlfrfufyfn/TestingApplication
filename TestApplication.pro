@@ -19,6 +19,9 @@ SOURCES += \
     choosequizwindow.cpp \
     endquizwindow.cpp \
     instructionwindow.cpp \
+    itomodel.cpp \
+    itoquizwindow.cpp \
+    itoresult.cpp \
     main.cpp \
     menuwindow.cpp \
     motivationreliefquizmodel.cpp \
@@ -34,13 +37,15 @@ HEADERS += \
     constants.h \
     endquizwindow.h \
     instructionwindow.h \
+    itomodel.h \
+    itoquizwindow.h \
+    itoresult.h \
     menuwindow.h \
     motivationreliefquizmodel.h \
     motivationreliefquizresult.h \
     motivationreliefquizwindow.h \
     statisticswindow.h \
     testapplication.h \
-    ui_userinfowindow.h \
     user.h \
     userinfowindow.h
 
@@ -49,6 +54,7 @@ FORMS += \
     MotivationReliefQuizWindow.ui \
     choosequizwindow.ui \
     endquizwindow.ui \
+    itoquizwindow.ui \
     mainwindow.ui \
     menuwindow.ui \
     statisticswindow.ui \
