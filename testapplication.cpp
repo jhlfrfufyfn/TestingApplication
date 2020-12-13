@@ -38,8 +38,6 @@ TestApplication::TestApplication(QWidget *parent)
     createItoQuizWindowConnections(itoQuizWindow);
     createStatisticsWindowConnections(stWindow);
     createEndQuizWindowConnections(endQuizWindow);
-
-    openUserInfoWindow();
 }
 
 void TestApplication::createMenuWindowConnections(MenuWindow* menuWindow, StatisticsWindow* stWindow) {
@@ -48,6 +46,7 @@ void TestApplication::createMenuWindowConnections(MenuWindow* menuWindow, Statis
     connect(menuWindow, &MenuWindow::changeUserButtonPressed, this, &TestApplication::openUserInfoWindow);
     connect(menuWindow, &MenuWindow::quitButtonPressed, this, &QApplication::quit);
     connect(menuWindow, &MenuWindow::testButtonPressed, this, &TestApplication::openChooseTestWindow);
+    connect(menuWindow, &MenuWindow::testButtonPressed, this, &TestApplication::openUserInfoWindow);
 }
 
 void TestApplication::createChooseQuizWindowConnections(ChooseQuizWindow* chQuizWindow){
@@ -127,13 +126,11 @@ void TestApplication::createNewUser(const QString& surName, const QString& name,
     //currentUser = new User(surName, name, secondName, date);
     currentUser.resetInfo(surName, name, secondName, date);
     currentUser.clearTestResults();
-
 }
 
 void TestApplication::createExistingUser(User *user)
 {
     currentUser.copy(user);
-    setNextState(State::MENU);
 }
 
 void TestApplication::updateWindowLayout()

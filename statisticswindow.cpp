@@ -12,6 +12,7 @@ StatisticsWindow::StatisticsWindow(QWidget *parent) :
 
     connect(ui->toMenuButton, &QPushButton::pressed, this, &StatisticsWindow::returnToMenuButtonPressed);
     connect(ui->userComboBox, QOverload<int>::of(&QComboBox::activated), this, &StatisticsWindow::userSelected);
+    connect(ui->testComboBox, QOverload<int>::of(&QComboBox::activated), this, &StatisticsWindow::testSelected);
 
     for(const auto& test: TEST_LIST){
         ui->testComboBox->addItem(test);
@@ -29,6 +30,9 @@ void StatisticsWindow::prepareStatisticsWindow()
     ui->userComboBox->clear();
     ui->userComboBox->addItems(User::getUserList());
     ui->userComboBox->setCurrentIndex(-1);
+    ui->testComboBox->setCurrentIndex(-1);
+    ui->tableWidget->clearContents();
+    clearGraphicsArea();
 }
 
 void StatisticsWindow::userSelected(int index)
@@ -37,6 +41,34 @@ void StatisticsWindow::userSelected(int index)
         return;
     }
     QString selectedUser = ui->userComboBox->itemText(index);
+
+    QString dateStr = selectedUser.split(" \"").at(1);
+    dateStr.remove(dateStr.size()-1, 1);
+    QDate date = QDate::fromString(dateStr);
+    QString fileName = "data/" + selectedUser.split(" ").at(0) + selectedUser.split(" ").at(1)+ selectedUser.split(" ").at(2)
+            + QString::number(date.day()) + QString::number(date.month()) + QString::number(date.year())+".txt";
+
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly);
+    QByteArray saveData = file.readAll();
+
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+    QJsonObject json = loadDoc.object();
+
+    updateVisualData(json);
+
+}
+
+void StatisticsWindow::testSelected(int index)
+{
+    if(index == -1){
+        return ;
+    }
+    if(ui->userComboBox->currentIndex()==-1){
+        return ;
+    }
+
+    QString selectedUser = ui->userComboBox->itemText(ui->userComboBox->currentIndex());
 
     QString dateStr = selectedUser.split(" \"").at(1);
     dateStr.remove(dateStr.size()-1, 1);
@@ -225,6 +257,77 @@ void StatisticsWindow::createMotivationalReliefTableUserInfo(QJsonObject json)
 
 }
 
+void StatisticsWindow::createItoTableView()
+{
+    ui->tableWidget->setColumnCount(15);
+    ui->tableWidget->setRowCount(36);
+
+    for(int i=0;i<ui->tableWidget->columnCount();i++){
+        ui->tableWidget->setColumnWidth(i,30);
+    }
+
+    for(int i=0;i<ui->tableWidget->rowCount();i++){
+        ui->tableWidget->setRowHeight(i,15);
+    }
+
+    ui->tableWidget->setColumnWidth(1, 270);
+
+}
+
+void StatisticsWindow::createItoTableUserInfo(QJsonObject json)
+{
+    QJsonObject resObject = json["itoResult"].toObject();
+
+    int rowCell = 1;
+    int colCell = 1;
+    for(int i=0;i<(int)ITO_CATEGORIES.size();i++){
+        setCellText(rowCell, colCell, ITO_CATEGORIES[i]);
+        setCellText(rowCell, colCell+1, QString::number(resObject[ITO_CATEGORIES[i]].toInt()));
+        rowCell++;
+    }
+    QChartView *chartView = new QChartView(createItoChart());
+    ui->verticalLayout->addWidget(chartView, 1);
+    ui->verticalLayout->addWidget(new QWidget(this), 1);
+}
+
+QChart* StatisticsWindow::createItoChart()
+{
+    QChart *chart = new QChart();
+
+    QStringList categories;
+    for(const auto& it: ITO_CATEGORIES){
+        categories<<it;
+    }
+
+    QLineSeries *lineSeries = new QLineSeries;
+    lineSeries->setName("ИТО");
+    int rowCell = 1;
+    int colCell = 1;
+    for(int i=0;i<(int)ITO_CATEGORIES.size();i++){
+        int val = getCellValueInt(rowCell, colCell+1);
+        lineSeries->append(i, val);
+        rowCell++;
+    }
+    chart->addSeries(lineSeries);
+
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    axisX->append(categories);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    lineSeries->attachAxis(axisX);
+    axisX->setRange(QString(CATEGORY_NAMES[0]), QString(CATEGORY_NAMES[CATEGORY_NAMES.size()-1]));
+    axisX->setLabelsFont(QFont("Roboto", 6));
+
+    QValueAxis *axisY = new QValueAxis();
+    chart->addAxis(axisY, Qt::AlignLeft);
+    lineSeries->attachAxis(axisY);
+    axisY->setRange(0,9);
+    axisY->setTickType(QValueAxis::TicksDynamic);
+    axisY->setTickInterval(1);
+
+    return chart;
+
+}
+
 void StatisticsWindow::updateVisualData(QJsonObject json)
 {
     int testIndex = ui->testComboBox->currentIndex();
@@ -235,13 +338,15 @@ void StatisticsWindow::updateVisualData(QJsonObject json)
         createMotivationalReliefTableUserInfo(json);
         break;
     case 1:
-
+        createItoTableView();
+        createItoTableUserInfo(json);
         break;
     }
 }
 
 void StatisticsWindow::clearGraphicsArea()
 {
+    ui->tableWidget->clearContents();
     QLayoutItem *child;
     while ((child = ui->verticalLayout->takeAt(0)) != nullptr) {
         delete child->widget(); // delete the widget

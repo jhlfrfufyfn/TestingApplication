@@ -112,6 +112,7 @@ QStringList User::getUserList()
 void User::clearTestResults()
 {
     mrResults->clear();
+    itoResults->clear();
 }
 
 void User::saveToFile()

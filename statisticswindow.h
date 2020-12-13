@@ -24,6 +24,7 @@ public:
 public slots:
     void prepareStatisticsWindow();
     void userSelected(int index);
+    void testSelected(int index);
 
 signals:
     void returnToMenuButtonPressed();
@@ -31,6 +32,9 @@ signals:
 private:
     void createMotivationalReliefTableView();
     void createMotivationalReliefTableUserInfo(QJsonObject);
+    void createItoTableView();
+    void createItoTableUserInfo(QJsonObject);
+    QChart* createItoChart();
     void updateVisualData(QJsonObject);
     void clearGraphicsArea();
     void setCellText(int row, int col, const QString& str);
