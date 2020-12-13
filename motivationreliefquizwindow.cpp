@@ -38,8 +38,6 @@ MotivationReliefQuizWindow::MotivationReliefQuizWindow(QWidget *parent):
     updateUiChoiceLabels();
 
     switchToValueMode();
-
-    connect(this,&MotivationReliefQuizWindow::sendQuizEnded, this->timer, &QTimer::stop);
 }
 
 void MotivationReliefQuizWindow::showInstruction()

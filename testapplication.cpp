@@ -64,6 +64,7 @@ void TestApplication::createMotivationalReliefQuizWindowConnections(MotivationRe
     connect(mrQuizWindow, &MotivationReliefQuizWindow::sendQuizEnded, &currentUser, &User::saveToFile);
     connect(mrQuizWindow, &MotivationReliefQuizWindow::sendQuizEnded, this, &TestApplication::openEndWindow);
     connect(mrQuizWindow, &MotivationReliefQuizWindow::sendQuizEnded, &User::createAllUsersDataTable);
+
     connect(mrQuizWindow, &MotivationReliefQuizWindow::sendWindowResultsValue, currentUser.mrResults, &MotivationReliefQuizResult::integrateResultsValue);
     connect(mrQuizWindow, &MotivationReliefQuizWindow::sendWindowResultsAccess, currentUser.mrResults, &MotivationReliefQuizResult::integrateResultsAccess);
 }
@@ -102,6 +103,11 @@ void TestApplication::openChooseTestWindow()
 void TestApplication::openStatisticsWindow(){
 
     setNextState(State::STATISTICS);
+}
+
+void TestApplication::clearMrTestResult()
+{
+    currentUser.mrResults->clear();
 }
 
 void TestApplication::openMenuWindow()

@@ -43,6 +43,7 @@ public slots:
     void setNextState(State);
     void openEndWindow();
     void openStatisticsWindow();
+    void clearMrTestResult();
 
 private:
     void updateWindowLayout();

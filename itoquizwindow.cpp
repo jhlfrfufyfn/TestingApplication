@@ -23,7 +23,7 @@ ItoQuizWindow::ItoQuizWindow(QWidget *parent):
   , timeOfLastKeyPressMsec(0)
 {
     timer->setTimerType(Qt::VeryCoarseTimer);
-
+    timer->start(TIMER_INTERVAL);
     setLayout(stackedWidget->layout());
     InstructionWindow* instWindow = new InstructionWindow(stackedWidget);
     instWindow->resize(this->size());
@@ -44,7 +44,6 @@ ItoQuizWindow::ItoQuizWindow(QWidget *parent):
 
     showInstruction();
 
-    connect(this,&ItoQuizWindow::sendQuizEnded, this->timer, &QTimer::stop);
 }
 
 void ItoQuizWindow::showInstruction()
